@@ -1,4 +1,4 @@
-﻿    enum Arsenal
+﻿    public enum Arsenal
     {
         None,
         GreatSword,

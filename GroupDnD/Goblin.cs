@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FinalTime
+namespace GroupDnD
 {
     class Goblin : Character
 
     {
-        private Arsenal weapon;
-
-        public Arsenal Weapon { get => weapon; set => weapon = value; }
-
-        public Goblin(string characterName, int hitPoints, int strength, int dex, int intelligence, int armor, Arsenal weapon, Arsenal weaknessMod, bool IsAlive, bool IsPlayer)
-            : base(characterName, hitPoints, strength, dex, intelligence, armor, weaknessMod, IsAlive, IsPlayer)
+        
+        public Goblin(string characterName, double hitPoints, int strength, int dex, int intelligence, int armor, Arsenal weapon, Arsenal weaknessMod, bool IsAlive, bool IsPlayer, int attackMod)
+            : base(characterName, hitPoints, strength, dex, intelligence, armor, weaknessMod, IsAlive, IsPlayer, attackMod)
         {
             this.Job = "Goblin";
             this.Weapon = weapon;
             this.WeaknessMod = Arsenal.Dagger;
         }
+        //public override string ToString()
+        //{
+        //    return $"{"",15} | " + base.ToString();
+        //}
     }
 }

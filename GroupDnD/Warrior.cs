@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FinalTime
+namespace GroupDnD
 {
     class Warrior : Character
 
     {
-        private Arsenal weapon;
 
-        public Arsenal Weapon { get => weapon; set => weapon = value; }
-
-        public Warrior(string characterName, int hitPoints, int strength, int dex, int intelligence, int armor, Arsenal weapon, Arsenal weaknessMod, bool IsAlive, bool IsPlayer)
-            :base(characterName, hitPoints, strength, dex, intelligence, armor, weaknessMod, IsAlive, IsPlayer)
+        public Warrior(string characterName, double hitPoints, int strength, int dex, int intelligence, int armor, Arsenal weapon, Arsenal weaknessMod, bool IsAlive, bool IsPlayer, int attackMod)
+            :base(characterName, hitPoints, strength, dex, intelligence, armor, weaknessMod, IsAlive, IsPlayer, attackMod)
         {
             this.Job = "Warrior";
             this.Weapon = weapon;
             this.IsPlayer = true;
         }
+        //public override string ToString()
+        //{
+        //    return base.ToString();
+        //}
     }
 }

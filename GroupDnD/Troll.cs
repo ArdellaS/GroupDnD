@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FinalTime
+namespace GroupDnD
 {
     class Troll : Character
 
     {
-        private Arsenal weapon;
-
-        public Arsenal Weapon { get => weapon; set => weapon = value; }
-
-        public Troll(string characterName, int hitPoints, int strength, int dex, int intelligence, int armor, Arsenal weapon, Arsenal weaknessMod, bool IsAlive, bool IsPlayer)
-            : base(characterName, hitPoints, strength, dex, intelligence, armor, weaknessMod, IsAlive, IsPlayer)
+        
+        public Troll(string characterName, double hitPoints, int strength, int dex, int intelligence, int armor, Arsenal weapon, Arsenal weaknessMod, bool IsAlive, bool IsPlayer, int attackMod)
+            : base(characterName, hitPoints, strength, dex, intelligence, armor, weaknessMod, IsAlive, IsPlayer, attackMod)
         {
             this.Job = "Troll";
             this.Weapon = weapon;
             this.WeaknessMod = Arsenal.GreatSword;
         }
+        //public override string ToString()
+        //{
+        //    return $"{"",15} | " + base.ToString();
+        //}
     }
 }
