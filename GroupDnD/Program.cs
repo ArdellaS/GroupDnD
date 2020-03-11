@@ -8,16 +8,23 @@ namespace GroupDnD
 
         static void Main(string[] args)
         {
+            Console.SetWindowSize(140, 45);
+            
             CharacterList characterList = new CharacterList();
 
             string name = EnterName();
             int charSelection = SelectCharacter();
 
             characterList.ChooseJob(charSelection, name);
+            Console.WriteLine($"Hello, {characterList.ReturnList()[0].CharacterName}. You have selected a {characterList.ReturnList()[0].Job}. \n");
             characterList.RandomMonster();
-
-            characterList.DisplayCharacterList();
-
+            Console.WriteLine($"A {characterList.ReturnList()[1].Job} approaches for a fight!\n\nPress enter to start the fight!");
+            Console.ReadLine();
+            Console.Clear();
+            //characterList.DisplayCharacterList();
+            BattleDisplay.UI(characterList.ReturnList());
+            Console.WriteLine("Press enter to attack");
+            Console.ReadLine();
             //Console.WriteLine("Please input 1 to use weapon: ");
             //int attackChoice = ValidateInput(0,1);
 
@@ -27,12 +34,12 @@ namespace GroupDnD
 
                 BattleDisplay.UI(characterList.ReturnList());
                 BattleField.PlayerCombat(characterList.ReturnList());
-                Console.WriteLine(String.Format("{0," + Console.WindowWidth / 2 + "}", "Press enter to continue"));
+                Console.WriteLine("Press enter to continue");
                 Console.ReadLine();
                 Console.Clear();
                 BattleDisplay.UI(characterList.ReturnList());
                 BattleField.EnemyCombat(characterList.ReturnList());
-                Console.WriteLine(String.Format("{0," + Console.WindowWidth / 2 + "}", "Press enter to continue"));
+                Console.WriteLine("Press enter to continue");
                 Console.ReadLine();
 
 
@@ -45,6 +52,9 @@ namespace GroupDnD
                 }
 
             }
+            Console.WriteLine("YOU DIED! GAME OVER!");
+            BattleDisplay.DisplayDead(characterList.ReturnList());
+            Console.ReadLine();
 
         }
         public static int ValidateInput(int x, int y)
@@ -66,7 +76,7 @@ namespace GroupDnD
         {
             bool worked;
             int characterChoice;
-            Console.Write("Please select your character\n1: Warrior\n2: Rougue\n3: Mage\n >> ");
+            Console.Write("Please select your character\n1: Warrior\n2: Rogue\n3: Mage\n >> ");
 
             do
             {
