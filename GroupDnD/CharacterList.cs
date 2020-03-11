@@ -6,30 +6,34 @@ namespace GroupDnD
 {
     public class CharacterList
     {
-        List<Character> characters = new List<Character>(); // list of heros
+        public static List<Character> characters = new List<Character>(); // list of heros
 
         string name, job;
         int strength, dexterity, intelligence, armor;
         Arsenal weakenesMod = Arsenal.None;
-        int baseHP = 20;
-        int warriorArmor = 16;
-        int rougeArmor = 14;
-        int mageArmor = 12;
+        int basePlayerHP = 25;
+        int baseMonHP = 15;
+        int warriorArmor = 14;
+        int rogueArmor = 12;
+        int mageArmor = 10;
 
         public void ChooseJob(int x, string name) //precondition has to be one of these options, we must check the input before we pass the int into this method
         {
             StatRoll();
             if (x == 1)
             {
-                characters.Add(new Warrior(name, baseHP + Dice.D8(), strength, dexterity, intelligence, warriorArmor, Arsenal.GreatSword, weakenesMod, true, true, strength - 10));
+                characters.Add(new Warrior(name, basePlayerHP + Dice.D8(), strength + 2, dexterity, intelligence, warriorArmor, Arsenal.GreatSword, weakenesMod, true, true, strength - 10));
+                BattleDisplay.DisplayWarrior();
             }
             else if (x == 2)
             {
-                characters.Add(new Rouge(name, baseHP + Dice.D6(), strength, dexterity, intelligence, rougeArmor, Arsenal.Dagger, weakenesMod, true, true, dexterity - 10));
+                characters.Add(new Rogue(name, basePlayerHP + Dice.D6(), strength, dexterity + 2, intelligence, rogueArmor, Arsenal.Dagger, weakenesMod, true, true, dexterity - 10));
+                BattleDisplay.DisplayRogue();
             }
             else if (x == 3)
             {
-                characters.Add(new Mage(name, baseHP + Dice.D4(), strength, dexterity, intelligence, mageArmor, Arsenal.Staff, weakenesMod, true, true, intelligence - 10));
+                characters.Add(new Mage(name, basePlayerHP + Dice.D4(), strength, dexterity, intelligence + 2, mageArmor, Arsenal.Staff, weakenesMod, true, true, intelligence - 10));
+                BattleDisplay.DisplayMage();
             }
         }
         public void RandomMonster() //precondition has to be one of these options, we must check the input before we pass the int into this method
@@ -39,15 +43,15 @@ namespace GroupDnD
 
             if (x == 1)
             {
-                characters.Add(new Troll(name, baseHP + Dice.D6(), strength, dexterity, intelligence, warriorArmor, Arsenal.Rock, Arsenal.GreatSword, true, false, strength - 10));
+                characters.Add(new Troll(name, baseMonHP + Dice.D6(), strength, dexterity, intelligence, warriorArmor, Arsenal.Rock, Arsenal.GreatSword, true, false, strength - 10));
             }
             else if (x == 2)
             {
-                characters.Add(new Goblin(name, baseHP + Dice.D4(), strength, dexterity, intelligence, rougeArmor, Arsenal.Club, Arsenal.Dagger, true, false, dexterity - 10));
+                characters.Add(new Goblin(name, baseMonHP + Dice.D4(), strength, dexterity, intelligence, rogueArmor, Arsenal.Club, Arsenal.Dagger, true, false, dexterity - 10));
             }
             else if (x == 3)
             {
-                characters.Add(new Dragon(name, baseHP + Dice.D8(), strength, dexterity, intelligence, mageArmor, Arsenal.Claw, Arsenal.Staff, true, false, intelligence - 10));
+                characters.Add(new Dragon(name, baseMonHP + Dice.D8(), strength, dexterity, intelligence, mageArmor, Arsenal.Claw, Arsenal.Staff, true, false, intelligence - 10));
             }
         }
         public void StatRoll()
@@ -81,13 +85,13 @@ namespace GroupDnD
             }
 
         }
-        public void DisplayCharacterList()
-        {
-            foreach (Character c in characters)
-            {
-                Console.WriteLine(c);
-            }
-        }
+        //public void DisplayCharacterList()
+        //{
+        //    foreach (Character c in characters)
+        //    {
+        //        Console.WriteLine(c);
+        //    }
+        //}
         public List<Character> ReturnList()
         {
             return characters;
