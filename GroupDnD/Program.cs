@@ -12,6 +12,10 @@ namespace GroupDnD
             
             CharacterList characterList = new CharacterList();
 
+            do
+            {
+             Console.Clear();
+             characterList.ReturnList().Clear();
             string name = EnterName();
             int charSelection = SelectCharacter();
 
@@ -21,42 +25,57 @@ namespace GroupDnD
             Console.WriteLine($"A {characterList.ReturnList()[1].Job} approaches for a fight!\n\nPress enter to start the fight!");
             Console.ReadLine();
             Console.Clear();
-            //characterList.DisplayCharacterList();
             BattleDisplay.UI(characterList.ReturnList());
-            Console.WriteLine("Press enter to attack");
-            Console.ReadLine();
-            //Console.WriteLine("Please input 1 to use weapon: ");
-            //int attackChoice = ValidateInput(0,1);
+
 
             while (characterList.ReturnList()[0].IsAlive)
             {
+                int attackSelection;
                 Console.Clear();
 
                 BattleDisplay.UI(characterList.ReturnList());
-                BattleField.PlayerCombat(characterList.ReturnList());
+                Console.WriteLine("Please Select your attack 1-2 \n1: Light Attack \n2: Heavy Attack");
+                attackSelection = ValidateInput(0,2);
+                BattleField.PlayerCombat(characterList.ReturnList(), attackSelection);
                 Console.WriteLine("Press enter to continue");
                 Console.ReadLine();
                 Console.Clear();
                 BattleDisplay.UI(characterList.ReturnList());
-                BattleField.EnemyCombat(characterList.ReturnList());
-                Console.WriteLine("Press enter to continue");
-                Console.ReadLine();
-
-
-
-                if (!characterList.ReturnList()[characterList.ReturnList().Count - 1].IsAlive)
+                if (characterList.ReturnList()[characterList.ReturnList().Count - 1].IsAlive)
+                {
+                    BattleField.EnemyCombat(characterList.ReturnList());
+                    Console.WriteLine("Press enter to continue");
+                    Console.ReadLine();
+                }
+                else
                 {
                     characterList.RandomMonster();
                     Console.WriteLine($"A new {characterList.ReturnList()[characterList.ReturnList().Count - 1].Job} has joined the fray!\n");
-
                 }
-
             }
             Console.WriteLine("YOU DIED! GAME OVER!");
             BattleDisplay.DisplayDead(characterList.ReturnList());
             Console.ReadLine();
 
+            } while (Continue());
         }
+
+        private static bool Continue()
+        {
+            char c;
+            do
+            {
+                Console.WriteLine("Would you like to create a new adventurer and slay more monsters? Y/N");
+                c = Console.ReadKey().KeyChar;
+                if (c == 'n' || c == 'N')
+                {
+                    return false;
+                }
+            } while (c != 'y' && c != 'Y');
+
+            return true;
+        }
+
         public static int ValidateInput(int x, int y)
         {
             int input;
@@ -64,7 +83,7 @@ namespace GroupDnD
             do
             {
                 worked = int.TryParse(Console.ReadLine(), out input);
-                if (!worked || input > x || input <= y)
+                if (!worked || input > y || input <= x)
                 {
                     Console.WriteLine("Sorry, this is not a valid input. Please try again.");
                     worked = false;
@@ -76,7 +95,7 @@ namespace GroupDnD
         {
             bool worked;
             int characterChoice;
-            Console.Write("Please select your character\n1: Warrior\n2: Rogue\n3: Mage\n >> ");
+            Console.Write("Please select your character: Enter 1-3\n1: Warrior\n2: Rogue\n3: Mage\n >> ");
 
             do
             {

@@ -8,14 +8,18 @@ namespace GroupDnD
     {
         static int hitRoll = 0;
         static int attackDice = 0;
-        public static void PlayerCombat(List<Character> characters)
+        public static void PlayerCombat(List<Character> characters, int attackSelection)
         {
             double dmgDealt;
 
-            if (Hit(characters[characters.Count - 1].AttackMod, characters[characters.Count - 1].Armor, out hitRoll) == true)
+            if (Hit(characters[characters.Count - 1].AttackMod, characters[characters.Count - 1].Armor, attackSelection, out hitRoll) == true)
             {
                 bool isCrit = false;
                 dmgDealt = Damage(characters[0].Weapon, characters[characters.Count - 1].WeaknessMod, characters[0].AttackMod, out attackDice);
+                if (attackSelection == 2)
+                {
+                    dmgDealt = Math.Round(dmgDealt * 1.25,2);
+                }
                 if (hitRoll == 20)
                 {
                     dmgDealt *= 2;
@@ -23,13 +27,17 @@ namespace GroupDnD
                 }
 
                 characters[characters.Count - 1].HitPoints -= dmgDealt;
+                if (characters[characters.Count - 1].HitPoints < 0)
+                {
+                    characters[characters.Count - 1].HitPoints = 0;
+                }
                 Console.Clear();
                 BattleDisplay.UI(characters);
                 if (isCrit == true)
                 {
                     Console.WriteLine("\nCritical Hit! You have done double damage!\n");
                 }
-                Console.WriteLine($"{characters[0].CharacterName} rolled a {hitRoll} breaking enemy armor.\n" +
+                Console.WriteLine($"{characters[0].CharacterName} rolled a {hitRoll} breaking through enemy defense.\n" +
                     $"Second dice rolled a {attackDice} with a {characters[0].Weapon} and hit {characters[characters.Count - 1].Job} dealing {dmgDealt} damage!\n");
                 
                 characters[characters.Count - 1].IsAlive = Death(characters[characters.Count - 1].HitPoints);
@@ -44,7 +52,7 @@ namespace GroupDnD
         {
             double dmgDealt;
 
-            if (Hit(characters[0].AttackMod, characters[0].Armor, out hitRoll) == true)
+            if (Hit(characters[0].AttackMod, characters[0].Armor, 1, out hitRoll) == true)
             {
                 bool isCrit = false;
                 dmgDealt = Damage(characters[characters.Count - 1].Weapon, characters[0].WeaknessMod, characters[characters.Count - 1].AttackMod, out attackDice);
@@ -55,6 +63,10 @@ namespace GroupDnD
                 }
 
                 characters[0].HitPoints -= dmgDealt;
+                if (characters[0].HitPoints < 0)
+                {
+                    characters[0].HitPoints = 0;
+                }
 
                 Console.Clear();
                 BattleDisplay.UI(characters);
@@ -62,7 +74,7 @@ namespace GroupDnD
                 {
                     Console.WriteLine("\nCritical Hit! You have done double damage!\n");
                 }
-                Console.WriteLine($"{characters[characters.Count - 1].Job} rolled a {hitRoll} breaking through your armor." +
+                Console.WriteLine($"{characters[characters.Count - 1].Job} rolled a {hitRoll} breaking through your defenses.\n" +
                     $"Second dice rolled a {attackDice} with a {characters[characters.Count - 1].Weapon} and hit {characters[0].CharacterName} dealing {dmgDealt} damage!\n");
 
                 characters[0].IsAlive = Death(characters[0].HitPoints);
@@ -73,18 +85,37 @@ namespace GroupDnD
                 Console.WriteLine($"{characters[characters.Count - 1].Job} rolled a {hitRoll} and missed with their {characters[characters.Count - 1].Weapon}\n");
 }
         }
-        public static bool Hit(int attackMod, int Armor, out int hitRoll)
+        public static bool Hit(int attackMod, int Armor, int attackSelection, out int hitRoll)
         {
-            hitRoll = Dice.D20();
-            int totalRoll = hitRoll + attackMod;
-            if (totalRoll >= Armor)
+            int totalRoll;
+            if (attackSelection == 1)
             {
-                return true;
+                hitRoll = Dice.D20();
+                totalRoll = hitRoll + attackMod;
+                if (totalRoll >= Armor)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return false;
+                hitRoll = Dice.D20();
+                totalRoll = hitRoll + attackMod;
+                if (totalRoll - 2 >= Armor)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
+
+            
         }
         public static double Damage(Arsenal weapon, Arsenal weaknessMod, int attackMod, out int attackDice)
         {
@@ -112,7 +143,7 @@ namespace GroupDnD
             }
             if (weaknessMod == weapon)
             {
-                damage = damage * 1.25;
+                damage = Math.Round(damage * 1.25);
             }
             return damage;
         }
