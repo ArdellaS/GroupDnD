@@ -10,6 +10,7 @@ namespace GroupDnD
         {
             LineBreak();
             HealthBar(characters);
+            FightCount(characters);
             LineBreak();
             DisplayMonster(characters);
             LineBreak();
@@ -77,7 +78,12 @@ namespace GroupDnD
         {
             Console.Write($"{characters[0].CharacterName,-30}{"",50}{characters[characters.Count - 1].Job,30}\n");
             Console.Write($"HP: {characters[0].HitPoints,-26}{"",50}{"HP: " + characters[characters.Count - 1].HitPoints,30}\n");
-            Console.Write($"{PlayerBar(characters),-30}{"",50}{EnemyBar(characters),30}\n");
+            Console.Write($"{PlayerBar(characters),-55}{EnemyBar(characters),55}\n");
+        }
+        public static void FightCount(List<Character> characters)
+        {
+            Console.WriteLine($"{"Fight: ",55}{characters.Count - 1}");
+        
         }
         public static void StatBar(List<Character> characters)
         {
