@@ -51,11 +51,11 @@ namespace GroupDnD
                 {
                     characterList.RandomMonster();
                     Console.WriteLine($"A new {characterList.ReturnList()[characterList.ReturnList().Count - 1].Job} has joined the fray!\n");
+                    BattleField.AddHealth(characterList.ReturnList());
                 }
             }
-            Console.WriteLine("YOU DIED! GAME OVER!");
+            Console.WriteLine($"YOU DIED! GAME OVER!\nYou have defeated {characterList.ReturnList().Count - 2} monters!\n\n");
             BattleDisplay.DisplayDead(characterList.ReturnList());
-            Console.ReadLine();
 
             } while (Continue());
         }

@@ -9,30 +9,37 @@ namespace GroupDnD
         public static List<Character> characters = new List<Character>(); // list of heros
 
         string name, job;
-        int strength, dexterity, intelligence, armor;
+        int strength, dexterity, intelligence, attackMod;
         Arsenal weakenesMod = Arsenal.None;
         int basePlayerHP = 25;
         int baseMonHP = 15;
         int warriorArmor = 14;
         int rogueArmor = 12;
         int mageArmor = 10;
+        int x;
 
         public void ChooseJob(int x, string name) //precondition has to be one of these options, we must check the input before we pass the int into this method
         {
             StatRoll();
             if (x == 1)
             {
-                characters.Add(new Warrior(name, basePlayerHP + Dice.D8(), strength + 2, dexterity, intelligence, warriorArmor, Arsenal.GreatSword, weakenesMod, true, true, strength - 10));
+                strength = strength + 2;
+                attackMod = strength - 10;
+                characters.Add(new Warrior(name, basePlayerHP + Dice.D8(), strength, dexterity, intelligence, warriorArmor, Arsenal.GreatSword, weakenesMod, true, true, attackMod));
                 BattleDisplay.DisplayWarrior();
             }
             else if (x == 2)
             {
-                characters.Add(new Rogue(name, basePlayerHP + Dice.D6(), strength, dexterity + 2, intelligence, rogueArmor, Arsenal.Dagger, weakenesMod, true, true, dexterity - 10));
+                dexterity = dexterity + 2;
+                attackMod = dexterity - 10;
+                characters.Add(new Rogue(name, basePlayerHP + Dice.D6(), strength, dexterity, intelligence, rogueArmor, Arsenal.Dagger, weakenesMod, true, true, attackMod));
                 BattleDisplay.DisplayRogue();
             }
             else if (x == 3)
             {
-                characters.Add(new Mage(name, basePlayerHP + Dice.D4(), strength, dexterity, intelligence + 2, mageArmor, Arsenal.Staff, weakenesMod, true, true, intelligence - 10));
+                intelligence = intelligence + 2;
+                attackMod = intelligence - 10;
+                characters.Add(new Mage(name, basePlayerHP + Dice.D4(), strength, dexterity, intelligence, mageArmor, Arsenal.Staff, weakenesMod, true, true, attackMod));
                 BattleDisplay.DisplayMage();
             }
         }
@@ -43,20 +50,23 @@ namespace GroupDnD
 
             if (x == 1)
             {
-                characters.Add(new Troll(name, baseMonHP + Dice.D6(), strength, dexterity, intelligence, warriorArmor, Arsenal.Rock, Arsenal.GreatSword, true, false, strength - 10));
+                attackMod = strength - 10;
+                characters.Add(new Troll(name, baseMonHP + Dice.D6(), strength, dexterity, intelligence, warriorArmor, Arsenal.Rock, Arsenal.GreatSword, true, false, attackMod));
             }
             else if (x == 2)
             {
-                characters.Add(new Goblin(name, baseMonHP + Dice.D4(), strength, dexterity, intelligence, rogueArmor, Arsenal.Club, Arsenal.Dagger, true, false, dexterity - 10));
+                attackMod = dexterity - 10;
+                characters.Add(new Goblin(name, baseMonHP + Dice.D4(), strength, dexterity, intelligence, rogueArmor, Arsenal.Club, Arsenal.Dagger, true, false, attackMod));
             }
             else if (x == 3)
             {
-                characters.Add(new Dragon(name, baseMonHP + Dice.D8(), strength, dexterity, intelligence, mageArmor, Arsenal.Claw, Arsenal.Staff, true, false, intelligence - 10));
+                attackMod = intelligence - 10;
+                characters.Add(new Dragon(name, baseMonHP + Dice.D8(), strength, dexterity, intelligence, mageArmor, Arsenal.Claw, Arsenal.Staff, true, false, attackMod));
             }
         }
         public void StatRoll()
         {
-            int x = Dice.D20();
+            x = Dice.D20();
             if (x <= 10)
             {
                 strength = 10;
